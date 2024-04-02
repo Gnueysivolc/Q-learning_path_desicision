@@ -21,6 +21,7 @@
 
 
 
+
     // Set some killing grids to white
 std::vector<std::pair<int, int>> values;
 
