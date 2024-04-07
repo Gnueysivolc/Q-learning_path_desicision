@@ -1,0 +1,5 @@
+# ninja log v5
+1	556	1712456393958920076	CMakeFiles/prog.dir/random.cpp.o	3563312c2494b07f
+1	560	1712456393958545161	CMakeFiles/prog.dir/main.cpp.o	4cecd54194b25a6b
+14	1001	1712456497746238157	CMakeFiles/prog.dir/render.cpp.o	9d9671a5778ec18
+10	448	1712456578257796941	prog	eceba4953ca00dfa

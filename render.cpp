@@ -23,7 +23,7 @@
 
 
     // Set some killing grids to white
-std::vector<std::pair<int, int>> values;
+std::vector<std::pair<int, int> > values;
 
 for (int i = 0; i < 100; i++) {
     int a = random_number();
