@@ -7,6 +7,9 @@
 #include "render.hpp"
 #include "Qfunction.hpp"
 #include "movement.hpp"
+
+double state_action[2][2][2][2][4]{};
+
 void initial_Qtable(double (&state_action)[2][2][2][2][4]) { // up, down, left, right, action
     std::ifstream inputfile("Qtable.txt");  // open Qtable file
     if (!inputfile) {
@@ -96,6 +99,8 @@ return reward;
 
 
 
+
+
 int get_best_action(int characterX, int characterY){
     int a, b, c, d;
        a = get_Qvalue(characterX, characterY, 1, 2);
@@ -114,3 +119,34 @@ int get_best_action(int characterX, int characterY){
     } else {
         return 2;
 }
+
+
+
+void update_Qtable_final(double (&state_action)[2][2][2][2][4]) {
+    std::ofstream outputfile("Qtable.txt", std::ofstream::trunc);  // open Qtable file for writing, discard old contents
+    if (!outputfile) {
+        std::cerr << "Failed to open the file." << std::endl;
+        return;
+    }
+
+    // Write the Qtable to the file
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 2; j++) {
+            for (int k = 0; k < 2; k++) {
+                for (int l = 0; l < 2; l++) {
+                    for (int m = 0; m < 4; m++) {
+                        // Write each element to the file
+                        outputfile << state_action[i][j][k][l][m] << ' ';
+                    }
+                }
+            }
+        }
+    }
+
+    outputfile.close();
+}
+
+
+
+
+

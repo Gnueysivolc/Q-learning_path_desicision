@@ -74,7 +74,17 @@ for (int i = 0; i < 100; i++) {
 
 
 
-        human_movement()
+
+
+
+        human_movement();
+        ai_movement();
+
+
+
+
+
+
 
         window.clear();
         
@@ -91,4 +101,3 @@ for (int i = 0; i < 100; i++) {
 
         window.display();
     }
-   }
