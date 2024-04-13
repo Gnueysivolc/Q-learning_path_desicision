@@ -13,7 +13,7 @@
 
 int main() {
     initial_Qtable();
-
+std::cout<<"Qtable initialized"<<std::endl;
     render_window();
     return 0;
 }

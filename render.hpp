@@ -5,6 +5,7 @@
 const int GRID_SIZE = 10;
 const int WINDOW_SIZE = 1000;
 const int CELL_SIZE = WINDOW_SIZE / GRID_SIZE;
+const int frame_rate = 1;
 
 void set_map();
 
@@ -15,7 +16,7 @@ extern std::vector<std::pair<int, int> > values;
 
 void render_window();
 
-
+void setupWindow();
 
 #endif
 

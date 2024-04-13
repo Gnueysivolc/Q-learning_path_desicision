@@ -3,11 +3,16 @@
   "configurations": [
     {
       "name": "C/C++ Runner: Debug Session",
-      "type": "lldb",
+      "type": "cppdbg",
       "request": "launch",
-      "args": [],
-      "cwd": "/Users/chunghinyeung/Desktop/Q-learning_path_desicision",
-      "program": "/Users/chunghinyeung/Desktop/Q-learning_path_desicision/build/Debug/outDebug"
+      "program": "${workspaceFolder}/build/Debug/Qfunction.cpp", // path to your executable
+      "args": [], // any command line arguments
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "preLaunchTask": "CMake Build" // name of the build task in tasks.json
     }
   ]
 }

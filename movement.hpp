@@ -6,5 +6,5 @@
     extern int characterX;
     extern int characterY;
     void human_movement(sf::Event& event);
-    void ai_movement();
+    void ai_movement(sf::Event& event);
     #endif

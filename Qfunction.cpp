@@ -42,58 +42,93 @@ if(!(inputfile.peek() == std::ifstream::traits_type::eof())){   //input the Qtab
 
 
 int* get_state(int characterX, int characterY) {
-    static int state[4];
+    int* state = new int[4];
+
+     if(characterX >= 0 && characterX < GRID_SIZE && characterY-1 >= 0 && characterY-1 < GRID_SIZE){
     if(grid[characterX][characterY-1].getFillColor()== sf::Color::White){
         state[0] = -1;
-    } else {
+    } else if(grid[characterX][characterY-1].getFillColor()== sf::Color::Black){
         state[0] = 1;
+    }else{
+        state[0] = -1;
     }
+
     if(grid[characterX][characterY+1].getFillColor()== sf::Color::White){
         state[1] = -1;
-    } else {
+    } else if(grid[characterX][characterY+1].getFillColor()== sf::Color::Black){
         state[1] = 1;
+    }else{
+        state[1] = -1;
     }
+    
     if(grid[characterX-1][characterY].getFillColor()== sf::Color::White){
         state[2] = -1;
-    } else {
+    } else if(grid[characterX-1][characterY].getFillColor()== sf::Color::Black){
         state[2] = 1;
+    }else{
+        state[2] = -1;
     }
+    
     if(grid[characterX+1][characterY].getFillColor()== sf::Color::White){
         state[3] = -1;
-    } else {
+    } else if(grid[characterX+1][characterY].getFillColor()== sf::Color::Black){
         state[3] = 1;
+    }else{
+        state[3] = -1;
     }
+    
     return state;
+}
 }
 
 
-double get_Qvalue(int characterX, int characterY, int action,int index){  //make a reecursive function to get and find the reward in three steps to calculate the Qvalue
-                           //index=0, stop recursive
-   if(index == 0){        
-    return 0;
-   }
-      index--;
+double get_Qvalue(int characterX, int characterY, int action,int index){  
+    if(index == 0){        
+     return 0.0;
+    }
+    index--;
 
-   int discount_value = 0.6+index/10; // index=1, discount_value=0.7, index=2, discount_value=0.8, index=3, discount_value=0.9
-    int a,b,c,d;
-    int* state = get_state(characterX, characterY);
-    a=state[0];
-    b=state[1];
-    c=state[2];
-    d=state[3];
-    double reward = state_action[a][b][c][d][action];
-     
-    double next_reward = discount_value * std::max(get_Qvalue( characterX,  characterY-1,  action, index),std::max(get_Qvalue( characterX-1,  characterY,  action, index),std::max(0.01+ get_Qvalue( characterX+1,  characterY,  action, index), 0.01+ get_Qvalue( characterX,  characterY+1,  action, index))));
-                       //get_Qvalue( characterX+1,  characterY,  action, index)
-                       //get_Qvalue( characterX,  characterY+1,  action, index)
-                       //get_Qvalue( characterX-1,  characterY,  action, index)
-                       //get_Qvalue( characterX,  characterY-1,  action, index)   
-                                
-// 0.01 = instant reward for moving near destination
+    int discount_value = 0.6+index/10; 
+     int a,b,c,d;
+     int* state = get_state(characterX, characterY);
 
+     a=state[0];
+     b=state[1];
+     c=state[2];
+     d=state[3];
+     // Check if the next state is a wall or a white grid
+      if(grid[characterX][characterY].getFillColor() == sf::Color::White){
+          state_action[a][b][c][d][action] -= 0.05; // penalty for bumping into a wall or a white grid
+      }
+
+        if(characterX < 0){
+            characterX = 0;
+            state_action[a][b][c][d][action] -= 0.02;
+            return -0.05;
+        }else if(characterY < 0){
+            characterY = 0;
+            state_action[a][b][c][d][action] -= 0.02;
+            return -0.05;
+        }
+        if(characterX >= GRID_SIZE ){
+            characterX = 9;
+            state_action[a][b][c][d][action] -= 0.02;
+            return -0.05;
+        }else if(characterY >= GRID_SIZE){
+            characterY = 9;
+            state_action[a][b][c][d][action] -= 0.02;
+            return -0.05;
+        }
+
+     double reward = state_action[a][b][c][d][action];
+      
+     double next_reward = discount_value * std::max(get_Qvalue( characterX,  characterY-1,  action, index),std::max(get_Qvalue( characterX-1,  characterY,  action, index),std::max(0.01+ get_Qvalue( characterX+1,  characterY,  action, index), 0.01+ get_Qvalue( characterX,  characterY+1,  action, index))));
+                              
  reward = reward + learning_rate * (next_reward-reward);
 
 state_action[a][b][c][d][action] = reward;
+
+delete[] state;
 
 return reward;
 
@@ -110,10 +145,10 @@ int get_best_action(int characterX, int characterY){
        c =  get_Qvalue(characterX, characterY, 3, 2);
        d = 0.01 + get_Qvalue(characterX, characterY, 4, 2) ; // left, move near to destination
     double max_value = std::max(d,std::max(c,std::max(a, b)));
-    if (max_value == a) {
-        return 1;
-    } else if (max_value == b) {
+    if (max_value == b) {  //b first to allow it not bump wall
         return 2;
+    } else if (max_value == a) {
+        return 1;
     } else if (max_value == c) {
         return 3;
     } else if (max_value == d) {

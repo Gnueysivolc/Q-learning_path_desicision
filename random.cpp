@@ -13,7 +13,7 @@ int random_number() {
     int randomNum = distribution(gen);
 
     // Print the random number
-    std::cout << "Random number: " << randomNum << std::endl;
+   //  std::cout << "Random number: " << randomNum << std::endl;
 
     return randomNum;
 }

@@ -8,12 +8,20 @@
 #include "Qfunction.hpp"
 #include "movement.hpp"
 
+
+
         sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Grid Game");
         sf::RectangleShape grid[GRID_SIZE][GRID_SIZE];
 
+        void setupWindow() {
+    // Call setFramerateLimit inside a function
+    window.setFramerateLimit(frame_rate);
+}
+        
+   
     std::vector<std::pair<int, int> > values;
 
-    
+
     void set_map(){
 
         
@@ -75,8 +83,13 @@ for (int i = 0; i < 100; i++) {
 
 
    void render_window(){
+    
+         setupWindow();
+        std::cout<<"rendering window"<<std::endl;
 
         set_map();
+
+        std::cout<<"finsihed set_map"<<std::endl;
 
     // Create character (circle)
     sf::CircleShape character(CELL_SIZE / 2);
@@ -88,7 +101,7 @@ for (int i = 0; i < 100; i++) {
 
 
         
-       // ai_movement();
+       
 
 
 
@@ -96,7 +109,16 @@ for (int i = 0; i < 100; i++) {
 while (window.isOpen()) {
         sf::Event event;
 
-     human_movement(event);
+     //human_movement(event);
+     std::cout<<"before ai movement"<<std::endl;
+
+
+     ai_movement(event);
+
+    std::cout<<"characterX: "<<characterX<<" characterY: "<<characterY<<std::endl;
+
+        std::cout<<"ai movement ok";
+
 
     window.clear();
 
