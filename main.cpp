@@ -13,10 +13,10 @@
 
 int main() {
     initial_Qtable();
+
     render_window();
     return 0;
 }
-
 
 
 

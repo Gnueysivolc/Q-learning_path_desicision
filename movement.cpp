@@ -11,9 +11,8 @@
         int characterX = 0;
         int characterY = 0;
 
-    void human_movement(){
-    while (window.isOpen()) {
-        sf::Event event;
+    void human_movement(sf::Event& event){
+
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 window.close();
@@ -40,7 +39,7 @@
             // Character touched killing grid
 
         }
-    }
+    
     }
 // ai_movement call in render function, ai_function = the whole thing
     void ai_movement(){

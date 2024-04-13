@@ -11,11 +11,12 @@
         sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Grid Game");
         sf::RectangleShape grid[GRID_SIZE][GRID_SIZE];
 
-   void render_window(){
+    std::vector<std::pair<int, int> > values;
 
-
-    // Create grid squares
     
+    void set_map(){
+
+        
     for (int i = 0; i < GRID_SIZE; ++i) {
         for (int j = 0; j < GRID_SIZE; ++j) {
             grid[i][j].setSize(sf::Vector2f(CELL_SIZE, CELL_SIZE));
@@ -33,14 +34,19 @@
 
 
     // Set some killing grids to white
-std::vector<std::pair<int, int> > values;
-//generate the map
+
+        //generate the map
+
+    // Create grid squares
 int random_number_of_white_grid= random_number()*random_number(); //give a random number of filling the white grid
 for (int i = 0; i < 100; i++) {
     int a = random_number();
     int b = random_number();
 
     if (a == 0 && b == 0) {
+        continue;
+    }
+    if (a == 9 && b == 9) {
         continue;
     }
 
@@ -62,14 +68,15 @@ for (int i = 0; i < 100; i++) {
     values.push_back(std::make_pair(a, b));
     grid[a][b].setFillColor(sf::Color::White);
 }
+}
 
 
 
 
 
+   void render_window(){
 
-
-
+        set_map();
 
     // Create character (circle)
     sf::CircleShape character(CELL_SIZE / 2);
@@ -80,17 +87,20 @@ for (int i = 0; i < 100; i++) {
 
 
 
-        human_movement();
+        
        // ai_movement();
 
 
 
 
+while (window.isOpen()) {
+        sf::Event event;
+
+     human_movement(event);
+
+    window.clear();
 
 
-
-        window.clear();
-        
         // Draw grid squares
         for (int i = 0; i < GRID_SIZE; ++i) {
             for (int j = 0; j < GRID_SIZE; ++j) {
@@ -103,4 +113,13 @@ for (int i = 0; i < 100; i++) {
         window.draw(character);
 
         window.display();
+
+        if (grid[characterX][characterY].getFillColor() == sf::Color::White) {
+            // Character touched killing grid
+            characterX = 0;
+            characterY = 0;
+            set_map();
+             // Close the window to end the current game
+        }
     }
+   }
