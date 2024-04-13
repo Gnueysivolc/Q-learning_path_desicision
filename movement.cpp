@@ -8,16 +8,18 @@
 #include "Qfunction.hpp"
 #include "movement.hpp"
 
+        int characterX = 0;
+        int characterY = 0;
 
     void human_movement(){
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-           /* if (event.type == sf::Event::Closed) {
+            if (event.type == sf::Event::Closed) {
                 window.close();
             }
             else
-            */
+            
              if (event.type == sf::Event::KeyPressed) {
                 // Move character
                 if (event.key.code == sf::Keyboard::Up && characterY > 0) {
@@ -46,7 +48,7 @@
         sf::Event event;
         while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
-            update_Qtable_final(double (&state_action)[2][2][2][2][4]);
+            update_Qtable_final();
                 window.close();
             }
         

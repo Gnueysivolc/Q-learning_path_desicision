@@ -8,22 +8,28 @@
 #include "Qfunction.hpp"
 #include "movement.hpp"
 
-double state_action[2][2][2][2][4]{};
+        double state_action[2][2][2][2][4] = {};
+ int state[4] = {};
+int action = 0;
+double learning_rate = 0.7;
+double reward ;
 
-void initial_Qtable(double (&state_action)[2][2][2][2][4]) { // up, down, left, right, action
+
+
+void initial_Qtable() { // up, down, left, right, action
     std::ifstream inputfile("Qtable.txt");  // open Qtable file
     if (!inputfile) {
         std::cerr << "Failed to open the file." << std::endl;
         return;
     }
-if(!(inputfile.peek() == std::ifstream::traits_type::eof()){   //input the Qtable from the file last time stored
+if(!(inputfile.peek() == std::ifstream::traits_type::eof())){   //input the Qtable from the file last time stored
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 2; j++) {
             for (int k = 0; k < 2; k++) {
                 for (int l = 0; l < 2; l++) {
                     for (int m = 0; m < 4; m++) {
                         // Read each element from the file
-                        inputFile >> state_action[i][j][k][l][m];
+                        inputfile >> state_action[i][j][k][l][m];
                     }
                 }
             }
@@ -68,21 +74,21 @@ double get_Qvalue(int characterX, int characterY, int action,int index){  //make
    }
       index--;
 
-   discount_value = 0.6+index/10; // index=1, discount_value=0.7, index=2, discount_value=0.8, index=3, discount_value=0.9
-    std::string a,b,c,d;
-    int state[4] = get_state(characterX, characterY);
+   int discount_value = 0.6+index/10; // index=1, discount_value=0.7, index=2, discount_value=0.8, index=3, discount_value=0.9
+    int a,b,c,d;
+    int* state = get_state(characterX, characterY);
     a=state[0];
     b=state[1];
     c=state[2];
     d=state[3];
-    int reward = state_action[a][b][c][d][action];
+    double reward = state_action[a][b][c][d][action];
      
-    int next_reward = discount_value * max( 
-                            0.01+ get_Qvalue(int characterX+1, int characterY, int action,int index),
-                            0.01+ get_Qvalue(int characterX, int characterY+1, int action,int index),
-                            get_Qvalue(int characterX--, int characterY, int action,int index),
-                            get_Qvalue(int characterX, int characterY--, int action,int index)
-    )               
+    double next_reward = discount_value * std::max(get_Qvalue( characterX,  characterY-1,  action, index),std::max(get_Qvalue( characterX-1,  characterY,  action, index),std::max(0.01+ get_Qvalue( characterX+1,  characterY,  action, index), 0.01+ get_Qvalue( characterX,  characterY+1,  action, index))));
+                       //get_Qvalue( characterX+1,  characterY,  action, index)
+                       //get_Qvalue( characterX,  characterY+1,  action, index)
+                       //get_Qvalue( characterX-1,  characterY,  action, index)
+                       //get_Qvalue( characterX,  characterY-1,  action, index)   
+                                
 // 0.01 = instant reward for moving near destination
 
  reward = reward + learning_rate * (next_reward-reward);
@@ -90,10 +96,6 @@ double get_Qvalue(int characterX, int characterY, int action,int index){  //make
 state_action[a][b][c][d][action] = reward;
 
 return reward;
-
-
-
-
 
 }
 
@@ -107,7 +109,7 @@ int get_best_action(int characterX, int characterY){
         b = 0.01 + get_Qvalue(characterX, characterY, 2, 2); // down, move near to destination
        c =  get_Qvalue(characterX, characterY, 3, 2);
        d = 0.01 + get_Qvalue(characterX, characterY, 4, 2) ; // left, move near to destination
-    double max_value = std::max({a, b, c, d});
+    double max_value = std::max(d,std::max(c,std::max(a, b)));
     if (max_value == a) {
         return 1;
     } else if (max_value == b) {
@@ -119,10 +121,9 @@ int get_best_action(int characterX, int characterY){
     } else {
         return 2;
 }
+}
 
-
-
-void update_Qtable_final(double (&state_action)[2][2][2][2][4]) {
+void update_Qtable_final() {
     std::ofstream outputfile("Qtable.txt", std::ofstream::trunc);  // open Qtable file for writing, discard old contents
     if (!outputfile) {
         std::cerr << "Failed to open the file." << std::endl;

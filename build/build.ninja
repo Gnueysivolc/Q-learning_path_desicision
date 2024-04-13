@@ -51,21 +51,35 @@ build cmake_object_order_depends_target_prog: phony || CMakeFiles/prog.dir
 
 build CMakeFiles/prog.dir/main.cpp.o: CXX_COMPILER__prog_unscanned_Debug /Users/chunghinyeung/Desktop/Q-learning_path_desicision/main.cpp || cmake_object_order_depends_target_prog
   DEP_FILE = CMakeFiles/prog.dir/main.cpp.o.d
-  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk
+  FLAGS = -g -std=gnu++11 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk
   INCLUDES = -I/opt/homebrew/Cellar/sfml/2.6.1/include
   OBJECT_DIR = CMakeFiles/prog.dir
   OBJECT_FILE_DIR = CMakeFiles/prog.dir
 
 build CMakeFiles/prog.dir/random.cpp.o: CXX_COMPILER__prog_unscanned_Debug /Users/chunghinyeung/Desktop/Q-learning_path_desicision/random.cpp || cmake_object_order_depends_target_prog
   DEP_FILE = CMakeFiles/prog.dir/random.cpp.o.d
-  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk
+  FLAGS = -g -std=gnu++11 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk
   INCLUDES = -I/opt/homebrew/Cellar/sfml/2.6.1/include
   OBJECT_DIR = CMakeFiles/prog.dir
   OBJECT_FILE_DIR = CMakeFiles/prog.dir
 
 build CMakeFiles/prog.dir/render.cpp.o: CXX_COMPILER__prog_unscanned_Debug /Users/chunghinyeung/Desktop/Q-learning_path_desicision/render.cpp || cmake_object_order_depends_target_prog
   DEP_FILE = CMakeFiles/prog.dir/render.cpp.o.d
-  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk
+  FLAGS = -g -std=gnu++11 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk
+  INCLUDES = -I/opt/homebrew/Cellar/sfml/2.6.1/include
+  OBJECT_DIR = CMakeFiles/prog.dir
+  OBJECT_FILE_DIR = CMakeFiles/prog.dir
+
+build CMakeFiles/prog.dir/Qfunction.cpp.o: CXX_COMPILER__prog_unscanned_Debug /Users/chunghinyeung/Desktop/Q-learning_path_desicision/Qfunction.cpp || cmake_object_order_depends_target_prog
+  DEP_FILE = CMakeFiles/prog.dir/Qfunction.cpp.o.d
+  FLAGS = -g -std=gnu++11 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk
+  INCLUDES = -I/opt/homebrew/Cellar/sfml/2.6.1/include
+  OBJECT_DIR = CMakeFiles/prog.dir
+  OBJECT_FILE_DIR = CMakeFiles/prog.dir
+
+build CMakeFiles/prog.dir/movement.cpp.o: CXX_COMPILER__prog_unscanned_Debug /Users/chunghinyeung/Desktop/Q-learning_path_desicision/movement.cpp || cmake_object_order_depends_target_prog
+  DEP_FILE = CMakeFiles/prog.dir/movement.cpp.o.d
+  FLAGS = -g -std=gnu++11 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk
   INCLUDES = -I/opt/homebrew/Cellar/sfml/2.6.1/include
   OBJECT_DIR = CMakeFiles/prog.dir
   OBJECT_FILE_DIR = CMakeFiles/prog.dir
@@ -78,7 +92,7 @@ build CMakeFiles/prog.dir/render.cpp.o: CXX_COMPILER__prog_unscanned_Debug /User
 #############################################
 # Link the executable prog
 
-build prog: CXX_EXECUTABLE_LINKER__prog_Debug CMakeFiles/prog.dir/main.cpp.o CMakeFiles/prog.dir/random.cpp.o CMakeFiles/prog.dir/render.cpp.o
+build prog: CXX_EXECUTABLE_LINKER__prog_Debug CMakeFiles/prog.dir/main.cpp.o CMakeFiles/prog.dir/random.cpp.o CMakeFiles/prog.dir/render.cpp.o CMakeFiles/prog.dir/Qfunction.cpp.o CMakeFiles/prog.dir/movement.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk
   LINK_LIBRARIES = -Wl,-rpath,/opt/homebrew/Cellar/sfml/2.6.1/lib  -lsfml-graphics  -lsfml-window  -lsfml-system
   LINK_PATH = -L/opt/homebrew/Cellar/sfml/2.6.1/lib

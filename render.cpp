@@ -8,11 +8,14 @@
 #include "Qfunction.hpp"
 #include "movement.hpp"
 
+        sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Grid Game");
+        sf::RectangleShape grid[GRID_SIZE][GRID_SIZE];
+
    void render_window(){
-   sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Grid Game");
+
 
     // Create grid squares
-    sf::RectangleShape grid[GRID_SIZE][GRID_SIZE];
+    
     for (int i = 0; i < GRID_SIZE; ++i) {
         for (int j = 0; j < GRID_SIZE; ++j) {
             grid[i][j].setSize(sf::Vector2f(CELL_SIZE, CELL_SIZE));
@@ -78,7 +81,7 @@ for (int i = 0; i < 100; i++) {
 
 
         human_movement();
-        ai_movement();
+       // ai_movement();
 
 
 

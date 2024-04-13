@@ -6,7 +6,11 @@ set(SOURCES
     main.cpp
     random.cpp
     render.cpp
+    Qfunction.cpp
+    movement.cpp
 )
+
+set(CMAKE_CXX_STANDARD 11)
 
 # Add the executable target
 add_executable(prog ${SOURCES})
