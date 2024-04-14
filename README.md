@@ -1,4 +1,6 @@
-# first time making some ai stuff
+# maze solution by Q learning and Q table
+ 
+ first time making some ai stuff
 this project uses Q-learning with Qtable and the Qfunction looks at four steps later of find the road of maze,
 
 
