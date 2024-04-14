@@ -48,7 +48,7 @@ void ai_movement(sf::Event& event){
   //  sf::Clock clock; // Start the clock
     
 
-                                     std::cout<<"ai movement start";
+                                     std::cout<<"ai movement start"<<std::endl;
 
 
     while (window.pollEvent(event)) {
@@ -58,8 +58,13 @@ void ai_movement(sf::Event& event){
             window.close();
         }
     }
-     //   if (clock.getElapsedTime().asSeconds() >= 0.1f) {        // If 0.1 seconds have passed
-         /*   int coordinate = get_best_action(characterX, characterY);
+    
+                                    std::cout<<"ai movement start_1"<<std::endl;
+ 
+            int coordinate = get_best_action(characterX, characterY);
+
+                                    std::cout<<"ai movement start_2"<<std::endl;
+
 
                                   std::cout<<"coorddinate action = "<<coordinate<<"\n;";
 
@@ -72,8 +77,8 @@ void ai_movement(sf::Event& event){
             } else if(coordinate == 4){
                 characterX++;
             }
-*/
-characterX++;
+
+
             std::cout<<"finished movement, coorddinate action = "<<characterX<<" "<<characterY<<"\n;";
 
 
@@ -87,8 +92,6 @@ characterX++;
         }else if(characterY >= GRID_SIZE){
              characterY = 9;
         }
-
-       // clock.restart(); // Restart the clock
 
         std::cout <<characterX<<" "<<characterY<<std::endl;
 
