@@ -8,7 +8,7 @@
 #include "Qfunction.hpp"
 #include "movement.hpp"
 
-
+int hi=0;
 
         sf::RenderWindow window(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Grid Game");
         sf::RectangleShape grid[GRID_SIZE][GRID_SIZE];
@@ -116,8 +116,8 @@ while (window.isOpen()) {
      ai_movement(event);
 
     std::cout<<"characterX: "<<characterX<<" characterY: "<<characterY<<std::endl;
-
-        std::cout<<"ai movement ok";
+hi++;
+        std::cout<<"ai movement ok"<<hi;
 
 
     window.clear();

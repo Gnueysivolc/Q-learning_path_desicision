@@ -8,6 +8,7 @@
 #include "render.hpp"
 #include "Qfunction.hpp"
 #include "movement.hpp"
+        int last_time_action=0, last_time_coordinateX=0, last_time_coordinateX2=0, last_time_coordinateY2=0, last_time_coordinateY=0;
 
         int characterX = 0;
         int characterY = 0;
@@ -71,28 +72,28 @@ void ai_movement(sf::Event& event){
                 
 int a,b,c,d,e;
 
-            if(coordinate == 1){
+            if(coordinate == 0){
                 characterY--;
-            } else if(coordinate == 2){
+            } else if(coordinate == 1){
                     int* state = get_state(characterX, characterY);
                     a=state[0];
                      b=state[1];
                      c=state[2];
                      d=state[3];
                      e=state[4];
-                state_action[a][b][c][d][e][1] += 0.2; 
+                state_action[a][b][c][d][e][1] += 0.5; 
                     delete[] state;
                 characterY++;
-            } else if(coordinate == 3){
+            } else if(coordinate == 2){
                 characterX--;
-            } else if(coordinate == 4){
+            } else if(coordinate == 3){
                 int* state = get_state(characterX, characterY);
                     a=state[0];
                      b=state[1];
                      c=state[2];
                      d=state[3];
                      e=state[4];
-                state_action[a][b][c][d][e][3] += 0.2; 
+                state_action[a][b][c][d][e][3] += 0.5; 
                     delete[] state;
                 characterX++;
             }
@@ -124,7 +125,7 @@ int a,b,c,d,e;
             
         }
 
-
+if(!(characterX >= GRID_SIZE && characterY >= GRID_SIZE) ){
         if(characterX >= GRID_SIZE){
             characterX = 9;
             int* state = get_state(characterX, characterY);
@@ -133,7 +134,9 @@ int a,b,c,d,e;
                      c=state[2];
                      d=state[3];
                      e=state[4];
-                state_action[a][b][c][d][e][3] -= 0.5; 
+                state_action[a][b][c][d][e][3] -= 10; 
+                                                            std::cout<<"state_action[a][b][c][d][e][1]"<<state_action[a][b][c][d][e][3]<<std::endl;
+
                     delete[] state;
         }
         if(characterY >= GRID_SIZE){
@@ -144,13 +147,54 @@ int a,b,c,d,e;
                      c=state[2];
                      d=state[3];
                      e=state[4];
-                state_action[a][b][c][d][e][1] -= 0.5; 
+                state_action[a][b][c][d][e][1] -= 10; 
+
+                                            std::cout<<"state_action[a][b][c][d][e][1]"<<state_action[a][b][c][d][e][1]<<std::endl;
                     delete[] state;
         }
+
+
+
+
+int* state = get_state(characterX, characterY+1);
+                    a=state[0];
+                     b=state[1];
+                     c=state[2];
+                     d=state[3];
+                     e=state[4];
+
+            if(last_time_coordinateX == characterX && last_time_coordinateY == characterY){
+                state_action[a][b][c][d][e][coordinate] -= 100; 
+                                                                                std::cout<<"state_action[a][b][c][d][e][1]==============================================="<<state_action[a][b][c][d][e][coordinate]<<std::endl;
+
+            }
+
+            if(last_time_coordinateX2 == characterX && last_time_coordinateY2 == characterY){
+                 state_action[a][b][c][d][e][coordinate] -= 100; 
+                                                                                 std::cout<<"state_action[a][b][c][d][e][1]==============================================="<<state_action[a][b][c][d][e][coordinate]<<std::endl;
+
+
+            }
+
+        last_time_action = coordinate;
+        last_time_coordinateX2 = last_time_coordinateX;
+        last_time_coordinateY2 = last_time_coordinateY;
+std::cout<<last_time_coordinateX<<" "<<last_time_coordinateY<<std::endl;
+std::cout<<last_time_coordinateX2<<" "<<last_time_coordinateY2<<std::endl;
+
+
+        last_time_coordinateX = characterX;
+        last_time_coordinateY = characterY;
+        
+                    delete[] state;
+        
+
+
+
 
         std::cout <<characterX<<" "<<characterY<<std::endl;
 
             
        // }
-    
+}
 }

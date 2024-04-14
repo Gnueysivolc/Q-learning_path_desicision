@@ -98,6 +98,8 @@ int* get_state(int characterX, int characterY) {
 }
 
 
+
+
 double get_Qvalue(int characterX, int characterY, int action,int index){  
     if(index == 0){        
      return 0.01;
@@ -193,20 +195,20 @@ double get_Qvalue(int characterX, int characterY, int action,int index){
 
         if(characterX < 0){
             characterX = 0;
-            state_action[a][b][c][d][e][action] -= 0.02;
+            state_action[a][b][c][d][e][2] -= 0.4;
             return -0.05;
         }else if(characterY < 0){
             characterY = 0;
-            state_action[a][b][c][d][e][action] -= 0.02;
+            state_action[a][b][c][d][e][0] -= 0.4;
             return -0.05;
         }
         if(characterX >= GRID_SIZE ){
             characterX = 9;
-            state_action[a][b][c][d][e][action] -= 0.02;
+            state_action[a][b][c][d][e][3] -= 0.4;
             return -0.05;
         }else if(characterY >= GRID_SIZE){
             characterY = 9;
-            state_action[a][b][c][d][e][action] -= 0.02;
+            state_action[a][b][c][d][e][1] -= 0.4;
             return -0.05;
         }
 
@@ -217,19 +219,38 @@ double get_Qvalue(int characterX, int characterY, int action,int index){
 
      double reward = state_action[a][b][c][d][e][action];
       
-                                 std::cout<<"get_Qvalue_3"<<std::endl;
+                                 std::cout<<"get_Qvalue_3"<<"real reward=========="<<reward<<std::endl;
+
+double max_value = -std::numeric_limits<double>::infinity();
+int max_action = -1;
+int max_coordinateX = -1;
+int max_coordinateY = -1;
+
+for (int coordinateX : {characterX-1, characterX+1}) {
+    for (int coordinateY : {characterY-1, characterY+1}) {
+        for (int action = 0; action < 4; ++action) {
+            double value = get_Qvalue(coordinateX, coordinateY, action, index) + 0.01 * action;
+            if (value > max_value) {
+                max_value = value;
+                max_action = action;
+                max_coordinateX = coordinateX;
+                max_coordinateY = coordinateY;
+            }
+        }
+    }
+}
 
 
-
-   //  double next_reward = discount_value * std::max(get_Qvalue( characterX,  characterY-1,  action, index),std::max(get_Qvalue( characterX-1,  characterY,  action, index),std::max(0.01+ get_Qvalue( characterX+1,  characterY,  action, index), 0.01+ get_Qvalue( characterX,  characterY+1,  action, index))));
+     double next_reward = discount_value * max_value ;
                               
+                              std::cout<<"max_value is "<<max_value<<std::endl;
 
      //                            std::cout<<"get_Qvalue_4"<<" next reward= "<<next_reward<<std::endl;
 
                                  std::cout<<"get_Qvalue_4"<<" reward= "<<reward<<std::endl;
 
 
- // reward = reward + learning_rate * (next_reward-reward);
+  reward = reward + learning_rate * (next_reward-reward);
 
 state_action[a][b][c][d][e][action] = reward;
 
@@ -246,7 +267,7 @@ return reward;
 
 
 int get_best_action(int characterX, int characterY){
-    int a, b, c, d, e;
+    double a, b, c, d, e;
 
 
                                  std::cout<<"get_best_action_1"<<std::endl;
@@ -269,8 +290,8 @@ int get_best_action(int characterX, int characterY){
 
     double max_value = std::max(d,std::max(c,std::max(a, b)));
 
-      int x = random_number()*random_number();
-  /*  if(x <=2){
+  /*    int x = random_number()*random_number();
+    if(x <=2){
         return 4; //random action
     }else if(x <=5){
         return 3; //random action
@@ -286,16 +307,16 @@ int get_best_action(int characterX, int characterY){
 
     if (max_value == b) {  //b first to make it not bump wall
          
-        return 2;
+        return 1;
     } else if (max_value == a) {
         
-        return 1;
+        return 0;
     } else if (max_value == c) {
        
-        return 3;
+        return 2;
     } else if (max_value == d) {
        
-        return 4;
+        return 3;
     } else {
         return 0;
 }
