@@ -5,7 +5,7 @@
 const int GRID_SIZE = 10;
 const int WINDOW_SIZE = 1000;
 const int CELL_SIZE = WINDOW_SIZE / GRID_SIZE;
-const int frame_rate = 1;
+const int frame_rate = 30;
 
 void set_map();
 

@@ -68,13 +68,32 @@ void ai_movement(sf::Event& event){
 
                                   std::cout<<"coorddinate action = "<<coordinate<<"\n;";
 
+                
+int a,b,c,d,e;
+
             if(coordinate == 1){
                 characterY--;
             } else if(coordinate == 2){
+                    int* state = get_state(characterX, characterY);
+                    a=state[0];
+                     b=state[1];
+                     c=state[2];
+                     d=state[3];
+                     e=state[4];
+                state_action[a][b][c][d][e][1] += 0.2; 
+                    delete[] state;
                 characterY++;
             } else if(coordinate == 3){
                 characterX--;
             } else if(coordinate == 4){
+                int* state = get_state(characterX, characterY);
+                    a=state[0];
+                     b=state[1];
+                     c=state[2];
+                     d=state[3];
+                     e=state[4];
+                state_action[a][b][c][d][e][3] += 0.2; 
+                    delete[] state;
                 characterX++;
             }
 
@@ -83,9 +102,26 @@ void ai_movement(sf::Event& event){
 
 
         if(characterX < 0){
+            int* state = get_state(characterX, characterY);
+                    a=state[0];
+                     b=state[1];
+                     c=state[2];
+                     d=state[3];
+                     e=state[4];
+                state_action[a][b][c][d][e][2] -= 0.2; 
+                    delete[] state;
             characterX = 0;
         }else if(characterY < 0){
+            int* state = get_state(characterX, characterY);
+                    a=state[0];
+                     b=state[1];
+                     c=state[2];
+                     d=state[3];
+                     e=state[4];
+                state_action[a][b][c][d][e][0] -= 0.2; 
+                    delete[] state;
             characterY = 0;
+            
         }
         if(characterX >= GRID_SIZE){
             characterX = 9;

@@ -48,11 +48,11 @@ int* get_state(int characterX, int characterY) {
 
      if(characterX >= 0 && characterX < GRID_SIZE && characterY-1 >= 0 && characterY-1 < GRID_SIZE){
     if(grid[characterX][characterY-1].getFillColor()== sf::Color::White){
-        state[0] = -1;
-    } else if(grid[characterX][characterY-1].getFillColor()== sf::Color::Black){
         state[0] = 1;
+    } else if(grid[characterX][characterY-1].getFillColor()== sf::Color::Black){
+        state[0] = 0;
     }else{
-        state[0] = -1;
+        state[0] = 1;
     }
 
     if(grid[characterX][characterY+1].getFillColor()== sf::Color::White){
@@ -100,12 +100,68 @@ int* get_state(int characterX, int characterY) {
 
 double get_Qvalue(int characterX, int characterY, int action,int index){  
     if(index == 0){        
-     return 0.0;
+     return 0.01;
     }
     index--;
 
     int discount_value = 0.6+index/10; 
      int a,b,c,d,e;
+
+
+
+
+                if (grid[characterX][characterY+1].getFillColor() == sf::Color::White){
+                    int* state = get_state(characterX, characterY);
+                    a=state[0];
+                     b=state[1];
+                     c=state[2];
+                     d=state[3];
+                     e=state[4];
+                state_action[a][b][c][d][e][1] -= 0.05; // penalty for bumping into a wall or a white grid
+                    delete[] state;
+        }
+
+                if (grid[characterX][characterY-1].getFillColor() == sf::Color::White){
+                    int* state = get_state(characterX, characterY);
+                    a=state[0];
+                     b=state[1];
+                     c=state[2];
+                     d=state[3];
+                     e=state[4];
+                state_action[a][b][c][d][e][0] -= 0.05; // penalty for bumping into a wall or a white grid
+                    delete[] state;
+        }
+
+                 if (grid[characterX-1][characterY].getFillColor() == sf::Color::White){
+                    int* state = get_state(characterX, characterY);
+                    a=state[0];
+                     b=state[1];
+                     c=state[2];
+                     d=state[3];
+                     e=state[4];
+                state_action[a][b][c][d][e][2] -= 0.05; // penalty for bumping into a wall or a white grid
+                    delete[] state;
+        }
+
+                 if (grid[characterX+1][characterY].getFillColor() == sf::Color::White){
+                    int* state = get_state(characterX, characterY);
+                    a=state[0];
+                     b=state[1];
+                     c=state[2];
+                     d=state[3];
+                     e=state[4];
+                state_action[a][b][c][d][e][3] -= 0.05; // penalty for bumping into a wall or a white grid
+                    delete[] state;
+        }
+
+
+
+
+
+
+
+
+
      int* state = get_state(characterX, characterY);
 
 
@@ -118,7 +174,7 @@ double get_Qvalue(int characterX, int characterY, int action,int index){
      c=state[2];
      d=state[3];
      e=state[4];
-                                std::cout<<a<<" "<<b<<" "<<c<<" "<<d<<" "<<e<<std::endl;
+                                std::cout<<"state= "<<a<<" "<<b<<" "<<c<<" "<<d<<" "<<e<<std::endl;
                                  std::cout<<"get_Qvalue_2"<<std::endl;
 
 
@@ -165,16 +221,19 @@ double get_Qvalue(int characterX, int characterY, int action,int index){
 
 
 
-     double next_reward = discount_value * std::max(get_Qvalue( characterX,  characterY-1,  action, index),std::max(get_Qvalue( characterX-1,  characterY,  action, index),std::max(0.01+ get_Qvalue( characterX+1,  characterY,  action, index), 0.01+ get_Qvalue( characterX,  characterY+1,  action, index))));
+   //  double next_reward = discount_value * std::max(get_Qvalue( characterX,  characterY-1,  action, index),std::max(get_Qvalue( characterX-1,  characterY,  action, index),std::max(0.01+ get_Qvalue( characterX+1,  characterY,  action, index), 0.01+ get_Qvalue( characterX,  characterY+1,  action, index))));
                               
 
-                                 std::cout<<"get_Qvalue_4"<<std::endl;
+     //                            std::cout<<"get_Qvalue_4"<<" next reward= "<<next_reward<<std::endl;
+
+                                 std::cout<<"get_Qvalue_4"<<" reward= "<<reward<<std::endl;
 
 
-
- reward = reward + learning_rate * (next_reward-reward);
+ // reward = reward + learning_rate * (next_reward-reward);
 
 state_action[a][b][c][d][e][action] = reward;
+
+                                std::cout<<"get_Qvalue_5 reward"<<" "<<reward<<std::endl;
 
 delete[] state;
 
@@ -193,27 +252,52 @@ int get_best_action(int characterX, int characterY){
                                  std::cout<<"get_best_action_1"<<std::endl;
 
 
-       a = get_Qvalue(characterX, characterY, 1, 2);
+       a = get_Qvalue(characterX, characterY, 0, 2);
 
 
                                  std::cout<<"get_best_action_2"<<std::endl;
 
 
 
-        b = 0.01 + get_Qvalue(characterX, characterY, 2, 2); // down, move near to destination
-       c =  get_Qvalue(characterX, characterY, 3, 2);
-       d = 0.01 + get_Qvalue(characterX, characterY, 4, 2) ; // left, move near to destination
+        b = 0.01 + get_Qvalue(characterX, characterY, 1, 2); // down, move near to destination
+       c =  get_Qvalue(characterX, characterY, 2, 2);
+       d = 0.01 + get_Qvalue(characterX, characterY, 3, 2) ; // left, move near to destination
+
+
+                                    std::cout<<"get_best_action_3"<<" "<<a<<" "<<b<<" "<<c<<" "<<d<<std::endl;
+
+
     double max_value = std::max(d,std::max(c,std::max(a, b)));
+
+      int x = random_number()*random_number();
+  /*  if(x <=2){
+        return 4; //random action
+    }else if(x <=5){
+        return 3; //random action
+    }else if(x <=7){
+        return 2; //random action
+}else if(x<=9){
+    return 1; //random action
+    }
+    
+*/
+
+
+
     if (max_value == b) {  //b first to make it not bump wall
+         
         return 2;
     } else if (max_value == a) {
+        
         return 1;
     } else if (max_value == c) {
+       
         return 3;
     } else if (max_value == d) {
+       
         return 4;
     } else {
-        return 2;
+        return 0;
 }
 }
 
