@@ -5,3 +5,7 @@ still the circle stucks in some longer dead end ince it can only foresee four st
 i dont know how to solve without foreseeing more steps but it causes a lot of operations
 maybe add a time punishment?
 someone help if can
+
+
+https://github.com/Gnueysivolc/Q-learning_path_desicision/assets/115377753/61758eb2-5884-4548-8e2c-0d8ac37bfb71
+
