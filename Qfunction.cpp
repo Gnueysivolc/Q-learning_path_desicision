@@ -279,8 +279,8 @@ int get_best_action(int characterX, int characterY){
 }else if(x<=9){
     return 1; //random action
     }
-    
-*/
+    */
+
 
 
 

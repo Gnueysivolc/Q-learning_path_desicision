@@ -102,7 +102,7 @@ int a,b,c,d,e;
 
 
         if(characterX < 0){
-            int* state = get_state(characterX, characterY);
+            int* state = get_state(characterX+1, characterY);
                     a=state[0];
                      b=state[1];
                      c=state[2];
@@ -112,7 +112,7 @@ int a,b,c,d,e;
                     delete[] state;
             characterX = 0;
         }else if(characterY < 0){
-            int* state = get_state(characterX, characterY);
+            int* state = get_state(characterX, characterY+1);
                     a=state[0];
                      b=state[1];
                      c=state[2];
@@ -123,10 +123,29 @@ int a,b,c,d,e;
             characterY = 0;
             
         }
+
+
         if(characterX >= GRID_SIZE){
             characterX = 9;
-        }else if(characterY >= GRID_SIZE){
+            int* state = get_state(characterX, characterY);
+                    a=state[0];
+                     b=state[1];
+                     c=state[2];
+                     d=state[3];
+                     e=state[4];
+                state_action[a][b][c][d][e][3] -= 0.5; 
+                    delete[] state;
+        }
+        if(characterY >= GRID_SIZE){
              characterY = 9;
+             int* state = get_state(characterX, characterY);
+                    a=state[0];
+                     b=state[1];
+                     c=state[2];
+                     d=state[3];
+                     e=state[4];
+                state_action[a][b][c][d][e][1] -= 0.5; 
+                    delete[] state;
         }
 
         std::cout <<characterX<<" "<<characterY<<std::endl;
