@@ -273,16 +273,16 @@ int get_best_action(int characterX, int characterY){
                                  std::cout<<"get_best_action_1"<<std::endl;
 
 
-       a = get_Qvalue(characterX, characterY, 0, 2);
+       a = get_Qvalue(characterX, characterY, 0, 3);
 
 
                                  std::cout<<"get_best_action_2"<<std::endl;
 
 
 
-        b = 0.01 + get_Qvalue(characterX, characterY, 1, 2); // down, move near to destination
-       c =  get_Qvalue(characterX, characterY, 2, 2);
-       d = 0.01 + get_Qvalue(characterX, characterY, 3, 2) ; // left, move near to destination
+        b = 0.01 + get_Qvalue(characterX, characterY, 1, 3); // down, move near to destination
+       c =  get_Qvalue(characterX, characterY, 2, 3);
+       d = 0.01 + get_Qvalue(characterX, characterY, 3, 3) ; // left, move near to destination
 
 
                                     std::cout<<"get_best_action_3"<<" "<<a<<" "<<b<<" "<<c<<" "<<d<<std::endl;
@@ -290,15 +290,24 @@ int get_best_action(int characterX, int characterY){
 
     double max_value = std::max(d,std::max(c,std::max(a, b)));
 
-  /*    int x = random_number()*random_number();
-    if(x <=2){
-        return 4; //random action
-    }else if(x <=5){
+      int x = random_number()*random_number();
+    if(x <=5  && (grid[characterX+1][characterY].getFillColor() != sf::Color::White )){
         return 3; //random action
-    }else if(x <=7){
+    }else if(x <=10 && (grid[characterX-1][characterY].getFillColor() != sf::Color::White )){
         return 2; //random action
-}else if(x<=9){
-    return 1; //random action
+    }else if(x <=15 && (grid[characterX][characterY+1].getFillColor() != sf::Color::White )){
+        return 1; //random action
+}else if(x<=20 && (grid[characterX][characterY-1].getFillColor() != sf::Color::White )){
+    return 0; //random action
+}
+ /*   }else if(x<=18){
+        return 3;
+    }else if(x<=19){
+        return 2;
+    }else if(x<=20){
+        return 1;
+    }else if(x<=21){
+        return 0;
     }
     */
 

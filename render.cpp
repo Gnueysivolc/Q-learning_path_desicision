@@ -136,7 +136,7 @@ hi++;
 
         window.display();
 
-        if (grid[characterX][characterY].getFillColor() == sf::Color::White) {
+        if ((grid[characterX][characterY].getFillColor() == sf::Color::White )|| (characterX == 9 && characterY == 9)) {
             // Character touched killing grid
             characterX = 0;
             characterY = 0;
