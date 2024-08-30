@@ -113,7 +113,7 @@ while (window.isOpen()) {
      std::cout<<"before ai movement"<<std::endl;
 
 
-     ai_movement(event);
+     ai_movement(event); //this is in movement.cpp
 
     std::cout<<"characterX: "<<characterX<<" characterY: "<<characterY<<std::endl;
 hi++;

@@ -192,7 +192,7 @@ double get_Qvalue(int characterX, int characterY, int action,int index){
                                  std::cout<<"get_Qvalue_2.1"<<std::endl;
 
 
-
+        // Check if the state is a wall 
         if(characterX < 0){
             characterX = 0;
             state_action[a][b][c][d][e][2] -= 0.4;

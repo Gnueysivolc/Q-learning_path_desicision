@@ -72,6 +72,7 @@ void ai_movement(sf::Event& event){
                 
 int a,b,c,d,e;
 
+            // coordinate is the direction to move actually
             if(coordinate == 0){
                 characterY--;
             } else if(coordinate == 1){
