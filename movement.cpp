@@ -157,38 +157,6 @@ if(!(characterX >= GRID_SIZE && characterY >= GRID_SIZE) ){
 
 
 
-int* state = get_state(characterX, characterY+1);
-                    a=state[0];
-                     b=state[1];
-                     c=state[2];
-                     d=state[3];
-                     e=state[4];
-
-            if(last_time_coordinateX == characterX && last_time_coordinateY == characterY){
-                state_action[a][b][c][d][e][coordinate] -= 100; 
-                                                                                std::cout<<"state_action[a][b][c][d][e][1]==============================================="<<state_action[a][b][c][d][e][coordinate]<<std::endl;
-
-            }
-
-            if(last_time_coordinateX2 == characterX && last_time_coordinateY2 == characterY){
-                 state_action[a][b][c][d][e][coordinate] -= 100; 
-                                                                                 std::cout<<"state_action[a][b][c][d][e][1]==============================================="<<state_action[a][b][c][d][e][coordinate]<<std::endl;
-
-
-            }
-
-        last_time_action = coordinate;
-        last_time_coordinateX2 = last_time_coordinateX;
-        last_time_coordinateY2 = last_time_coordinateY;
-std::cout<<last_time_coordinateX<<" "<<last_time_coordinateY<<std::endl;
-std::cout<<last_time_coordinateX2<<" "<<last_time_coordinateY2<<std::endl;
-
-
-        last_time_coordinateX = characterX;
-        last_time_coordinateY = characterY;
-        
-                    delete[] state;
-        
 
 
 
