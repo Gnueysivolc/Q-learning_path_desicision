@@ -3,11 +3,13 @@
 
 // functions
 void initial_Qtable();
-double get_Qvalue(std::string state, int action);
+double get_Qvalue(int characterX, int characterY, int index); 
+double get_Qvalue_without_learning(int charX, int charY, double index);
 void update_Qtable(int state, int action, int reward, int next_state);
 int get_best_action(int characterX, int characterY);
 void update_Qtable_final();
 int* get_state(int characterX, int characterY);
+extern double future_step;
 
 // array and values
 extern double state_action[2][2][2][2][2][4]; // the Qtable

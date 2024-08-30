@@ -7,7 +7,7 @@ int random_number() {
     std::mt19937 gen(rd());
 
     // Define the range for the random number
-    std::uniform_int_distribution<int> distribution(0, 9);
+    std::uniform_int_distribution<int> distribution(1, 9);
 
     // Generate a random number
     int randomNum = distribution(gen);

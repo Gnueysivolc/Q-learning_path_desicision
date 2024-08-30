@@ -47,7 +47,7 @@ int hi=0;
 
     // Create grid squares
 int random_number_of_white_grid= random_number()*random_number(); //give a random number of filling the white grid
-for (int i = 0; i < 100; i++) {
+for (int i = 0; i < 20; i++) {
     int a = random_number();
     int b = random_number();
 

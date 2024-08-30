@@ -8,6 +8,7 @@
 #include "render.hpp"
 #include "Qfunction.hpp"
 #include "movement.hpp"
+double future_step = 3; // the number of steps in the future to consider
         int last_time_action=0, last_time_coordinateX=0, last_time_coordinateX2=0, last_time_coordinateY2=0, last_time_coordinateY=0;
 
         int characterX = 0;
@@ -62,9 +63,14 @@ void ai_movement(sf::Event& event){
     
                                     std::cout<<"ai movement start_1"<<std::endl;
  
-            int coordinate = get_best_action(characterX, characterY);
 
+ //int coordinate = get_best_action(characterX, characterY); // it is in the Qfunction.cpp
+ //use this when need to learn
+
+           int coordinate = static_cast<int>(get_Qvalue_without_learning(characterX, characterY, future_step)); // it is in the Qfunction.cpp
+            //this is the one that doesn't need to learn
                                     std::cout<<"ai movement start_2"<<std::endl;
+
 
 
                                   std::cout<<"coorddinate action = "<<coordinate<<"\n;";
@@ -72,6 +78,8 @@ void ai_movement(sf::Event& event){
                 
 int a,b,c,d,e;
 
+/*
+    // this is the one for learning !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             // coordinate is the direction to move actually
             if(coordinate == 0){
                 characterY--;
@@ -100,6 +108,47 @@ int a,b,c,d,e;
             }
 
 
+            std::cout<<"finished movement, coorddinate action = "<<characterX<<" "<<characterY<<"\n;";
+
+
+        if(characterX < 0){
+            int* state = get_state(characterX+1, characterY);
+                    a=state[0];
+                     b=state[1];
+                     c=state[2];
+                     d=state[3];
+                     e=state[4];
+                state_action[a][b][c][d][e][2] -= 0.2; 
+                    delete[] state;
+            characterX = 0;
+        }else if(characterY < 0){
+            int* state = get_state(characterX, characterY+1);
+                    a=state[0];
+                     b=state[1];
+                     c=state[2];
+                     d=state[3];
+                     e=state[4];
+                state_action[a][b][c][d][e][0] -= 0.2; 
+                    delete[] state;
+            characterY = 0;
+            
+        }
+
+*/
+
+
+// this is the one for no learning, the above is the one for learning
+                    if(coordinate == 0){
+                characterY--;
+            } else if(coordinate == 1){
+                characterY++;
+            } else if(coordinate == 2){
+                characterX--;
+            } else if(coordinate == 3){
+                characterX++;
+            }
+
+/*
             std::cout<<"finished movement, coorddinate action = "<<characterX<<" "<<characterY<<"\n;";
 
 
@@ -158,12 +207,13 @@ if(!(characterX >= GRID_SIZE && characterY >= GRID_SIZE) ){
 
 
 
-
-
-
         std::cout <<characterX<<" "<<characterY<<std::endl;
 
             
        // }
 }
+*/
+
+
+
 }

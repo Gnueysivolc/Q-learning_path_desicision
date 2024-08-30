@@ -7,13 +7,14 @@
 #include "render.hpp"
 #include "Qfunction.hpp"
 #include "movement.hpp"
-
+using namespace std;
         double state_action[2][2][2][2][2][4] = {};
 
  int state[5] = {};
 int action = 0;
 double learning_rate = 0.7;
 double reward ;
+
 
 
 
@@ -97,6 +98,87 @@ int* get_state(int characterX, int characterY) {
 }
 }
 
+// this function will skip all the learning and calculation steps so the Q learning recursion can be up to a huge amount allowing us to foresee a long future
+double get_Qvalue_without_learning(int charX, int charY, double index){
+        cout<<"index is "<<index<<endl;
+
+        if(index == 0){        //the base case 
+         return 0.01;
+         }
+        index--;
+
+        if(charX < 0 || charY < 0 || charX >= GRID_SIZE || charY >= GRID_SIZE){
+            return -0.01;
+        }
+
+
+            vector<double> vec_temp_value;
+
+        int* state = get_state(charX, charY);
+            int a=state[0];
+            int b=state[1];
+            int  c=state[2];
+            int d=state[3];
+            int e=state[4];
+        delete[] state;
+        double instant_reward=0;
+        int max_value = 0;
+        for(int i=0; i < 4; i++){         // 0 = move up, 1 = move down, 2 = move left, 3 = move right
+            int x,y;
+            
+            if(i == 2){
+                 x = -1;
+                 instant_reward = -0.5;
+
+            }else if(i == 3){
+                 x = 1;
+                 instant_reward = 1.15;
+            }else{
+                 x = 0;
+            }
+
+            if(i == 0){
+                 y = -1;
+                 instant_reward = -0.5;
+            }else if(i == 1){
+                 y = 1;
+                 instant_reward = 1.15;
+            }else{
+                 y = 0;
+            }
+
+            // this allow all four action recursive 
+          int temp_value = state_action[a][b][c][d][e][i] + get_Qvalue_without_learning((charX + x), (charY + y), index)*index/future_step + instant_reward; 
+          cout<<get_Qvalue_without_learning((charX + x), (charY + y), index)*0.1*index/future_step<<endl; 
+            
+
+
+            if(index == future_step-1){
+                vec_temp_value.push_back(temp_value);
+            }
+
+
+        if(temp_value > max_value){ // the four actions are 0 to 3
+            max_value = temp_value;
+        }
+        }
+            if(index == future_step-1){
+                for(int i=0; i < vec_temp_value.size(); i++){
+                    cout<<"THE four reward values!!!"<<endl;
+                    cout<<vec_temp_value[i]<<endl;
+                }
+                 auto maxIt = std::max_element(vec_temp_value.begin(), vec_temp_value.end());
+                 // Get the position of the maximum element
+                double maxIndex = std::distance(vec_temp_value.begin(), maxIt);
+
+                return maxIndex;
+            }
+            
+            
+    
+        return max_value;
+        
+}
 
 
 
@@ -211,7 +293,7 @@ double get_Qvalue(int characterX, int characterY, int action,int index){
             state_action[a][b][c][d][e][1] -= 0.4;
             return -0.05;
         }
-
+        // 0 = move up, 1 = move down, 2 = move left, 3 = move right
 
                                  std::cout<<"get_Qvalue_2.2"<<std::endl;
 
@@ -229,7 +311,7 @@ int max_coordinateY = -1;
 for (int coordinateX : {characterX-1, characterX+1}) {
     for (int coordinateY : {characterY-1, characterY+1}) {
         for (int action = 0; action < 4; ++action) {
-            double value = get_Qvalue(coordinateX, coordinateY, action, index) + 0.01 * action;
+            double value = get_Qvalue(coordinateX, coordinateY, action, index) + 0.01 * action; // this is where the rucursion happens !!!!!!!!!!!!!   //the action here is actually a bit weird, should it be the reward for action going diwn and right instead of 1,2,3,4 ?
             if (value > max_value) {
                 max_value = value;
                 max_action = action;
@@ -273,16 +355,16 @@ int get_best_action(int characterX, int characterY){
                                  std::cout<<"get_best_action_1"<<std::endl;
 
 
-       a = get_Qvalue(characterX, characterY, 0, 3);
+       a = get_Qvalue(characterX, characterY, 0, future_step);
 
 
                                  std::cout<<"get_best_action_2"<<std::endl;
 
 
 
-        b = 0.01 + get_Qvalue(characterX, characterY, 1, 3); // down, move near to destination
-       c =  get_Qvalue(characterX, characterY, 2, 3);
-       d = 0.01 + get_Qvalue(characterX, characterY, 3, 3) ; // left, move near to destination
+        b = 0.01 + get_Qvalue(characterX, characterY, 1, future_step); // down, move near to destination
+       c =  get_Qvalue(characterX, characterY, 2, future_step);
+       d = 0.01 + get_Qvalue(characterX, characterY, 3, future_step) ; // left, move near to destination
 
 
                                     std::cout<<"get_best_action_3"<<" "<<a<<" "<<b<<" "<<c<<" "<<d<<std::endl;
@@ -300,6 +382,7 @@ int get_best_action(int characterX, int characterY){
 }else if(x<=20 && (grid[characterX][characterY-1].getFillColor() != sf::Color::White )){
     return 0; //random action
 }
+
  /*   }else if(x<=18){
         return 3;
     }else if(x<=19){
